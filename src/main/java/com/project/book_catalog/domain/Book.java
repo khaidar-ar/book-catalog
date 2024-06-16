@@ -13,8 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "book",indexes = {
+        @Index(name = "book_secure_id",columnList = "secure_id")
+})
+@Inheritance(strategy =InheritanceType.SINGLE_TABLE)
+public class Book extends AbstractBaseEntity {
 
     @Id
     private Long id;
@@ -30,10 +33,10 @@ public class Book {
     private Publisher publisher;
 
     @ManyToMany
-    @JoinTable(name="book_author",joinColumns = {
-            @JoinColumn(name = "book_id",referencedColumnName = "id")
-    },inverseJoinColumns = {
-            @JoinColumn(name = "author_id",referencedColumnName = "id")
+    @JoinTable(name = "book_author", joinColumns = {
+            @JoinColumn(name = "book_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "author_id", referencedColumnName = "id")
     })
     private List<Author> authors;
 

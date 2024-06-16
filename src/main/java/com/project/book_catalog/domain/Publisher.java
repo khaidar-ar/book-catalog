@@ -13,8 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "publisher")
-public class Publisher {
+@Table(name = "publisher",indexes = {
+        @Index(name = "publisher_secure_id",columnList = "secure_id")
+})
+@Inheritance(strategy =InheritanceType.SINGLE_TABLE)
+public class Publisher extends AbstractBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "publisher_generator")
