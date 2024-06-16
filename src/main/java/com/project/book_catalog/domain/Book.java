@@ -37,4 +37,13 @@ public class Book {
     })
     private List<Author> authors;
 
+
+    @ManyToMany
+    @JoinTable(name = "book_category", joinColumns = {
+            @JoinColumn(name = "book_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "category_id", referencedColumnName = "code")
+    })
+    private List<Category> categories;
+
 }
