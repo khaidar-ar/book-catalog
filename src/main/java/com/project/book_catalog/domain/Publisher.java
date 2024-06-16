@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,7 +17,8 @@ import lombok.NoArgsConstructor;
 public class Publisher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "publisher_generator")
+    @SequenceGenerator(name = "publisher_generator",sequenceName = "publisher_id_seq")
     private Long id;
 
     @Column(name = "name",nullable = false)
@@ -26,4 +29,7 @@ public class Publisher {
 
     @Column(name = "address",nullable = true)
     private String address;
+
+    @OneToMany(mappedBy = "publisher")
+    private List<Book> books;
 }
