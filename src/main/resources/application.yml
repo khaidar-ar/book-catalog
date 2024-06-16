@@ -1,0 +1,28 @@
+server:
+    port: 5000
+spring:
+    application:
+        name: book-catalog
+    datasource:
+        hikari:
+            connection-timeout: 60000
+            max-lifetime: 180000
+            idle-timeout: 60000
+            maximum-pool-size: 10
+        url: jdbc:postgresql://localhost:5432/pg-book-catalog
+        username: postgres
+    jpa:
+        database: POSTGRESQL
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+#                dialect: org.hibernate.dialect.PostgreSQLDialect
+                jdbc:
+                    batch_size :100
+        show-sql: true
+
+
+
+
+
