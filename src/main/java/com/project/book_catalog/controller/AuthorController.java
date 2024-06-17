@@ -1,13 +1,10 @@
 package com.project.book_catalog.controller;
 
-import com.project.book_catalog.domain.Author;
 import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.response.AuthorResponseDTO;
 import com.project.book_catalog.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

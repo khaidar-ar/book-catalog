@@ -2,9 +2,7 @@ package com.project.book_catalog.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
