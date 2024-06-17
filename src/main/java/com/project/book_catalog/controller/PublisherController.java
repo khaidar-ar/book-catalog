@@ -22,8 +22,8 @@ public class PublisherController {
     public ResponseEntity<ResponsePageDTO<PublisherResponseDTO>> findAll(
             @RequestParam(name = "pages", required = true, defaultValue = "0") Integer pages,
             @RequestParam(name = "limit", required = true, defaultValue = "10") Integer limit,
-            @RequestParam(name = "direction", required = true, defaultValue = "name") String sortBy,
-            @RequestParam(name = "sort-by", required = true, defaultValue = "asc") String direction,
+            @RequestParam(name = "sort-by", required = true, defaultValue = "name") String sortBy,
+            @RequestParam(name = "direction", required = true, defaultValue = "asc") String direction,
             @RequestParam(name = "filter", required = false) String filter) {
         return ResponseEntity.ok().body(publisherService.findPublisher(pages,limit,sortBy,direction,filter));
     }

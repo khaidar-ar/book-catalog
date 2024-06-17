@@ -10,7 +10,6 @@ import com.project.book_catalog.repository.PublisherRepository;
 import com.project.book_catalog.service.PublisherService;
 import com.project.book_catalog.util.PaginationUtil;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
