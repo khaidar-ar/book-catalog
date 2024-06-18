@@ -31,22 +31,18 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public ResponsePageDTO<PublisherResponseDTO> findAll(Integer page,
-                                                               Integer limit,
-                                                               String sortBy,
-                                                               String direction,
-                                                               String filter) {
+                                                         Integer limit,
+                                                         String sortBy,
+                                                         String direction,
+                                                         String filter) {
         filter = StringUtils.isBlank(filter) ? "%" : filter + "%";
         Sort sort = Sort.by(PaginationUtil.sortBy(direction), sortBy);
         Pageable pageable = PageRequest.of(page, limit, sort);
         Page<Publisher> pageResult = publisherRepository.findByNameLikeIgnoreCase(filter, pageable);
-        List<PublisherResponseDTO> publisherResponseDTOS = pageResult.stream().map(p -> {
-            PublisherResponseDTO publisherResponseDTO =  PublisherResponseDTO.builder()
-                    .name(p.getName())
-                    .companyName(p.getCompanyName())
-                    .address(p.getAddress())
-                    .build();
-            return publisherResponseDTO;
-        }).collect(Collectors.toList());
+        List<PublisherResponseDTO> publisherResponseDTOS = pageResult.stream().filter(
+                publisher -> publisher.getDeleted() != Boolean.TRUE).map(
+                publisher -> modelMapper.map(publisher,PublisherResponseDTO.class)
+        ).collect(Collectors.toList());
         return PaginationUtil.resultPage(publisherResponseDTOS, (int) pageResult.getTotalElements(),
                 pageResult.getTotalPages());
     }
@@ -83,7 +79,7 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public List<Publisher> findPublishers(List<String> id) {
         List<Publisher> publishers = publisherRepository.findBySecureIdIn(id);
-        if(publishers.isEmpty()) throw new BadRequestException("Publishers is empty!!!");
+        if (publishers.isEmpty()) throw new BadRequestException("Publishers is empty!!!");
         return publishers;
     }
 
