@@ -46,17 +46,16 @@ public class AuthorServiceImpl implements AuthorService {
         Sort sort = Sort.by(PaginationUtil.sortBy(direction), sortBy);
         Pageable pageable = PageRequest.of(pages, limit, sort);
         Page<Author> authors = authorRepository.findByNameLikeIgnoreCase(filter, pageable);
-        List<AuthorResponseDTO> authorResponseDTOS = authors.stream().filter(
-                        author -> author.getDeleted() != Boolean.TRUE
-                ).map(author -> modelMapper.map(author, AuthorResponseDTO.class))
+        List<AuthorResponseDTO> authorResponseDTOS = authors.stream()
+                .map(author -> modelMapper.map(author,AuthorResponseDTO.class))
                 .collect(Collectors.toList());
-        return PaginationUtil.resultPage(authorResponseDTOS, limit, pages);
+        return PaginationUtil.resultPage(authorResponseDTOS, (int) authors.getTotalElements(), authors.getTotalPages());
     }
 
     @Override
     public List<Author> findAuthors(List<String> id) {
         List<Author> authors = authorRepository.findBySecureIdIn(id);
-        if(authors.isEmpty()) throw new BadRequestException("Authors is empty!!!");
+        if (authors.isEmpty()) throw new BadRequestException("Authors is empty!!!");
         return authors;
     }
 
