@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "publisher",indexes = {
         @Index(name = "publisher_secure_id",columnList = "secure_id")
 })
-@Inheritance(strategy =InheritanceType.SINGLE_TABLE)
 public class Publisher extends AbstractBaseEntity {
 
     @Id

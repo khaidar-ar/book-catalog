@@ -3,11 +3,18 @@ package com.project.book_catalog.service.Impl;
 import com.project.book_catalog.domain.Author;
 import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.response.AuthorResponseDTO;
+import com.project.book_catalog.dto.response.ResponsePageDTO;
 import com.project.book_catalog.exception.BadRequestException;
 import com.project.book_catalog.repository.AuthorRepository;
 import com.project.book_catalog.service.AuthorService;
+import com.project.book_catalog.util.PaginationUtil;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,19 +30,27 @@ public class AuthorServiceImpl implements AuthorService {
     private final ModelMapper modelMapper;
 
     @Override
-    public AuthorResponseDTO findById(Long id) {
-        Author author = authorRepository.findById(id).orElseThrow(() -> new BadRequestException("Invalid id!!!"));
+    public AuthorResponseDTO findBySecureId(String id) {
+        Author author = authorRepository.findBySecureId(id).orElseThrow(() -> new BadRequestException("Invalid id!!!"));
         AuthorResponseDTO authorResponse = modelMapper.map(author, AuthorResponseDTO.class);
         return authorResponse;
     }
 
     @Override
-    public List<AuthorResponseDTO> findAll() {
-        List<AuthorResponseDTO> authorResponseDTOList = authorRepository
-                .findAll().stream().map(author ->
-                        modelMapper.map(author, AuthorResponseDTO.class))
+    public ResponsePageDTO<AuthorResponseDTO> findAll(Integer pages,
+                                                      Integer limit,
+                                                      String sortBy,
+                                                      String direction,
+                                                      String name) {
+        String filter = StringUtils.isBlank(name) ? "%" : name + "%";
+        Sort sort = Sort.by(PaginationUtil.sortBy(direction), sortBy);
+        Pageable pageable = PageRequest.of(pages, limit, sort);
+        Page<Author> authors = authorRepository.findByNameLikeIgnoreCase(filter, pageable);
+        List<AuthorResponseDTO> authorResponseDTOS = authors.stream().filter(
+                        author -> author.getDeleted() != Boolean.TRUE
+                ).map(author -> modelMapper.map(author, AuthorResponseDTO.class))
                 .collect(Collectors.toList());
-        return authorResponseDTOList;
+        return PaginationUtil.resultPage(authorResponseDTOS, limit, pages);
     }
 
     @Override
@@ -60,19 +75,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void update(Long id, AuthorRequestDTO author) {
-       Author result = authorRepository.findById(id).
-                orElseThrow(()-> new BadRequestException("Author with id " + id + " not found!!!"));
-        Author updateAuthor = Author.builder()
-                .id(result.getId())
-                .name(result.getName())
-                .birthDate(result.getBirthDate()).build();
-        authorRepository.save(updateAuthor);
+    public void update(String id, AuthorRequestDTO authorRequestDTO) {
+        Author result = authorRepository.findBySecureId(id).
+                orElseThrow(() -> new BadRequestException("Author with id " + id + " not found!!!"));
+        result.setName(authorRequestDTO.getName());
+        result.setBirthDate(LocalDate.parse(authorRequestDTO.getBirthDate()));
+        authorRepository.save(result);
     }
 
     @Override
-    public AuthorResponseDTO delete(Long id) {
-        Author author = authorRepository.findById(id)
+    public AuthorResponseDTO delete(String id) {
+        Author author = authorRepository.findBySecureId(id)
                 .orElseThrow(() -> new BadRequestException
                         ("Author with id " + id + " not found!!!"));
         AuthorResponseDTO authorResponseDTO = AuthorResponseDTO.builder()
@@ -83,16 +96,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorResponseDTO softDelete(Long id) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(()-> new BadRequestException
+    public AuthorResponseDTO softDelete(String id) {
+        Author author = authorRepository.findBySecureId(id)
+                .orElseThrow(() -> new BadRequestException
                         ("Author with id " + id + " not found!!!"));
         author.setDeleted(Boolean.TRUE);
         authorRepository.save(author);
-        AuthorResponseDTO authorResponseDTO = AuthorResponseDTO.builder()
-                .name(author.getName())
-                .birthDate(author.getBirthDate())
-                .build();
+        AuthorResponseDTO authorResponseDTO = modelMapper.map(author, AuthorResponseDTO.class);
         return authorResponseDTO;
     }
 }

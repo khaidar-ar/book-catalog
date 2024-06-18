@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Table(name = "author",indexes = {
         @Index(name = "author_secure_id",columnList = "secure_id")
 })
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Author extends AbstractBaseEntity {
 
     @Id

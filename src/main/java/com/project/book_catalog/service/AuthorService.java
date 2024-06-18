@@ -2,22 +2,27 @@ package com.project.book_catalog.service;
 
 import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.response.AuthorResponseDTO;
+import com.project.book_catalog.dto.response.ResponsePageDTO;
 
 import java.util.List;
 
 public interface AuthorService {
 
-    public AuthorResponseDTO findById(Long id);
+    public AuthorResponseDTO findBySecureId(String id);
 
-    public List<AuthorResponseDTO> findAll();
+    public ResponsePageDTO<AuthorResponseDTO> findAll(Integer pages,
+                                                      Integer limit,
+                                                      String sortBy,
+                                                      String direction,
+                                                      String name);
 
     public void create(AuthorRequestDTO author);
 
     public void createBatch(List<AuthorRequestDTO> authorRequestDTOList);
 
-    public void update(Long id, AuthorRequestDTO author);
+    public void update(String id, AuthorRequestDTO author);
 
-    public AuthorResponseDTO delete(Long id);
+    public AuthorResponseDTO delete(String id);
 
-    public AuthorResponseDTO softDelete(Long id);
+    public AuthorResponseDTO softDelete(String id);
 }
