@@ -39,9 +39,8 @@ public class PublisherServiceImpl implements PublisherService {
         Sort sort = Sort.by(PaginationUtil.sortBy(direction), sortBy);
         Pageable pageable = PageRequest.of(page, limit, sort);
         Page<Publisher> pageResult = publisherRepository.findByNameLikeIgnoreCase(filter, pageable);
-        List<PublisherResponseDTO> publisherResponseDTOS = pageResult.stream().filter(
-                publisher -> publisher.getDeleted() != Boolean.TRUE).map(
-                publisher -> modelMapper.map(publisher,PublisherResponseDTO.class)
+        List<PublisherResponseDTO> publisherResponseDTOS = pageResult.stream()
+                .map(publisher -> modelMapper.map(publisher,PublisherResponseDTO.class)
         ).collect(Collectors.toList());
         return PaginationUtil.resultPage(publisherResponseDTOS, (int) pageResult.getTotalElements(),
                 pageResult.getTotalPages());
