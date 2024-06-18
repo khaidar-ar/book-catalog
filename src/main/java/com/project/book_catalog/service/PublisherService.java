@@ -1,5 +1,6 @@
 package com.project.book_catalog.service;
 
+import com.project.book_catalog.domain.Publisher;
 import com.project.book_catalog.dto.request.PublisherRequestDTO;
 import com.project.book_catalog.dto.request.PublisherUpdateRequestDTO;
 import com.project.book_catalog.dto.response.PublisherResponseDTO;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface PublisherService {
 
-    public ResponsePageDTO<PublisherResponseDTO> findPublisher(Integer page,
+    public ResponsePageDTO<PublisherResponseDTO> findAll(Integer page,
                                                                Integer limit,
                                                                String sortBy,
                                                                String direction,
@@ -20,6 +21,8 @@ public interface PublisherService {
     public void create(PublisherRequestDTO publisherRequestDTO);
 
     public PublisherResponseDTO update(String id, PublisherUpdateRequestDTO publisherUpdateRequestDTO);
+
+    public List<Publisher> findPublishers(List<String> id);
 
 
 }

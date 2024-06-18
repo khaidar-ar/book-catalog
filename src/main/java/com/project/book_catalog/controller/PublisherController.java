@@ -25,7 +25,7 @@ public class PublisherController {
             @RequestParam(name = "sort-by", required = true, defaultValue = "name") String sortBy,
             @RequestParam(name = "direction", required = true, defaultValue = "asc") String direction,
             @RequestParam(name = "filter", required = false) String filter) {
-        return ResponseEntity.ok().body(publisherService.findPublisher(pages,limit,sortBy,direction,filter));
+        return ResponseEntity.ok().body(publisherService.findAll(pages,limit,sortBy,direction,filter));
     }
 
     @GetMapping(value = "/publisher/{id}")

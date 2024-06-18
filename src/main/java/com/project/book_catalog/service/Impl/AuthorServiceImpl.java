@@ -54,6 +54,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public List<Author> findAuthors(List<String> id) {
+        List<Author> authors = authorRepository.findBySecureIdIn(id);
+        if(authors.isEmpty()) throw new BadRequestException("Authors is empty!!!");
+        return authors;
+    }
+
+    @Override
     public void create(AuthorRequestDTO authorRequest) {
         Author author = Author.builder()
                 .name(authorRequest.getName())

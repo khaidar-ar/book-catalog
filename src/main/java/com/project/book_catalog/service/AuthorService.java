@@ -1,5 +1,6 @@
 package com.project.book_catalog.service;
 
+import com.project.book_catalog.domain.Author;
 import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.response.AuthorResponseDTO;
 import com.project.book_catalog.dto.response.ResponsePageDTO;
@@ -15,6 +16,8 @@ public interface AuthorService {
                                                       String sortBy,
                                                       String direction,
                                                       String name);
+
+    public List<Author> findAuthors(List<String> id);
 
     public void create(AuthorRequestDTO author);
 

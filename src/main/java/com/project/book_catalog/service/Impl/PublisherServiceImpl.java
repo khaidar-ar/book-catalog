@@ -30,7 +30,7 @@ public class PublisherServiceImpl implements PublisherService {
     private ModelMapper modelMapper;
 
     @Override
-    public ResponsePageDTO<PublisherResponseDTO> findPublisher(Integer page,
+    public ResponsePageDTO<PublisherResponseDTO> findAll(Integer page,
                                                                Integer limit,
                                                                String sortBy,
                                                                String direction,
@@ -78,6 +78,13 @@ public class PublisherServiceImpl implements PublisherService {
         publisherRepository.save(publisher);
         PublisherResponseDTO publisherResponseDTO = modelMapper.map(publisherUpdateRequestDTO, PublisherResponseDTO.class);
         return publisherResponseDTO;
+    }
+
+    @Override
+    public List<Publisher> findPublishers(List<String> id) {
+        List<Publisher> publishers = publisherRepository.findBySecureIdIn(id);
+        if(publishers.isEmpty()) throw new BadRequestException("Publishers is empty!!!");
+        return publishers;
     }
 
 }
