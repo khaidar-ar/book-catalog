@@ -82,4 +82,14 @@ public class PublisherServiceImpl implements PublisherService {
         return publishers;
     }
 
+    @Override
+    public Publisher findPublisher(String id) {
+        return publisherRepository.findBySecureId(id).orElseThrow(()->new BadRequestException("Publisher not found!!!"));
+    }
+
+    @Override
+    public PublisherResponseDTO construct(Publisher publisher) {
+        return modelMapper.map(publisher, PublisherResponseDTO.class);
+    }
+
 }

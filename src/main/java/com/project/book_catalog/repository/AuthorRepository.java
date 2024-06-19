@@ -1,6 +1,7 @@
 package com.project.book_catalog.repository;
 
 import com.project.book_catalog.domain.Author;
+import com.project.book_catalog.dto.response.AuthorResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,4 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     public Page<Author> findByNameLikeIgnoreCase(@Param("name") String name, Pageable pageable);
 
     public List<Author> findBySecureIdIn(List<String> id);
-
 }

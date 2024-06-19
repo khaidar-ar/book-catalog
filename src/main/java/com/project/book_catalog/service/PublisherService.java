@@ -24,5 +24,10 @@ public interface PublisherService {
 
     public List<Publisher> findPublishers(List<String> id);
 
+    public Publisher findPublisher(String id);
+
+    public PublisherResponseDTO construct(Publisher publisher);
+
+
 
 }

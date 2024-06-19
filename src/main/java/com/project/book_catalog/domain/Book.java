@@ -20,6 +20,9 @@ import java.util.List;
 public class Book extends AbstractBaseEntity {
 
     @Id
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "book_generator")
+    @SequenceGenerator(name = "book_generator",sequenceName = "publisher_id_seq")
     private Long id;
 
     @Column(name = "title", nullable = false)

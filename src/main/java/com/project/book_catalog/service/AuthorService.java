@@ -28,4 +28,8 @@ public interface AuthorService {
     public AuthorResponseDTO delete(String id);
 
     public AuthorResponseDTO softDelete(String id);
+
+    public List<AuthorResponseDTO> construct(List<Author> authors);
+
+
 }

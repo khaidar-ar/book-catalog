@@ -1,8 +1,11 @@
 package com.project.book_catalog.service;
 
+import com.project.book_catalog.domain.Category;
 import com.project.book_catalog.dto.request.CategoryRequestDTO;
 import com.project.book_catalog.dto.response.CategoryResponseDTO;
 import com.project.book_catalog.dto.response.ResponsePageDTO;
+
+import java.util.List;
 
 public interface CategoryService {
 
@@ -13,4 +16,8 @@ public interface CategoryService {
                                                         String sortBy,
                                                         String direction,
                                                         String name);
+
+    public List<Category> findCategories(List<String> codes);
+    public List<CategoryResponseDTO> construct(List<Category> categories);
+
 }

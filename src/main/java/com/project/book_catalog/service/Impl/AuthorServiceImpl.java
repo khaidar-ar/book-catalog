@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -110,5 +109,13 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.save(author);
         AuthorResponseDTO authorResponseDTO = modelMapper.map(author, AuthorResponseDTO.class);
         return authorResponseDTO;
+    }
+
+    @Override
+    public List<AuthorResponseDTO> construct(List<Author> authors) {
+        List<AuthorResponseDTO> authorResponseDTOS = authors.stream().map(
+                author -> modelMapper.map(author, AuthorResponseDTO.class)
+        ).collect(Collectors.toList());
+        return authorResponseDTOS;
     }
 }

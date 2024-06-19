@@ -4,6 +4,7 @@ import com.project.book_catalog.domain.Category;
 import com.project.book_catalog.dto.request.CategoryRequestDTO;
 import com.project.book_catalog.dto.response.CategoryResponseDTO;
 import com.project.book_catalog.dto.response.ResponsePageDTO;
+import com.project.book_catalog.exception.BadRequestException;
 import com.project.book_catalog.repository.CategoryRepository;
 import com.project.book_catalog.service.CategoryService;
 import com.project.book_catalog.util.PaginationUtil;
@@ -55,5 +56,20 @@ public class CategoryServiceImpl implements CategoryService {
                         modelMapper.map(category, CategoryResponseDTO.class)
                 ).collect(Collectors.toList());
         return PaginationUtil.resultPage(results, (int) categories.getTotalElements(), categories.getTotalPages());
+    }
+
+    @Override
+    public List<Category> findCategories(List<String> codes) {
+        List<Category> categories = categoryRepository.findByCodeIn(codes);
+        if(categories.isEmpty()) throw new BadRequestException("Categories is empty");
+        return categories;
+    }
+
+    @Override
+    public List<CategoryResponseDTO> construct(List<Category> categories) {
+        List<CategoryResponseDTO> categoryResponseDTOS = categories.stream().map(
+                category -> modelMapper.map(category, CategoryResponseDTO.class)
+        ).collect(Collectors.toList());
+        return categoryResponseDTOS;
     }
 }
