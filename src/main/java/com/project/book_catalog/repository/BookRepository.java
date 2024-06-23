@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book,String> {
+public interface BookRepository extends JpaRepository<Book,String> {;
 
-    @Query("SELECT b FROM Book b WHERE UPPER(b.title) LIKE UPPER (%:title%) AND b.deleted = false OR b.deleted IS NULL")
+    @Query("SELECT b FROM Book b WHERE UPPER (b.title) LIKE UPPER (%:title%) AND b.deleted = false OR b.deleted IS NULL")
     public Page<Book> findByTitleLikeIgnoreCase(@Param("title") String title, Pageable pageable);
 
     public Optional<Book> findBySecureId(String id);

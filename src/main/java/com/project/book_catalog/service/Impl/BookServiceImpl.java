@@ -66,7 +66,7 @@ public class BookServiceImpl implements BookService {
         String filter = StringUtils.isBlank(name) ? "%" : name + "%";
         Sort sort = Sort.by(PaginationUtil.sortBy(direction), sortBy);
         Pageable pageable = PageRequest.of(pages, limit, sort);
-        Page<Book> bookPage = bookRepository.findByTitleLikeIgnoreCase(name, pageable);
+        Page<Book> bookPage = bookRepository.findByTitleLikeIgnoreCase(filter, pageable);
         List<BookResponseDTO> bookResponseDTOS = bookPage.stream().map(
                 book -> modelMapper.map(book, BookResponseDTO.class)
         ).collect(Collectors.toList());

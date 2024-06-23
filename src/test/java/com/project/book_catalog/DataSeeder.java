@@ -3,7 +3,6 @@ package com.project.book_catalog;
 import com.github.javafaker.Faker;
 import com.project.book_catalog.domain.Author;
 import com.project.book_catalog.domain.Publisher;
-import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.request.PublisherRequestDTO;
 import com.project.book_catalog.repository.AuthorRepository;
 import com.project.book_catalog.repository.PublisherRepository;
@@ -12,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -66,6 +63,6 @@ public class DataSeeder {
 
     @Test
     void test() {
-        
+
     }
 }
