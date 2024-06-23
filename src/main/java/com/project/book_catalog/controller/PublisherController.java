@@ -32,7 +32,7 @@ public class PublisherController {
     }
 
     @PostMapping(value = "/publisher")
-    public ResponseEntity<Void> create(@RequestBody @Valid PublisherRequestDTO publisherRequestDTO) {
+    public ResponseEntity<Void> create(@ModelAttribute @Valid PublisherRequestDTO publisherRequestDTO) {
         publisherService.create(publisherRequestDTO);
         return ResponseEntity.ok().build();
     }

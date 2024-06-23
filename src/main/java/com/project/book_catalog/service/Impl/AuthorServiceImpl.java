@@ -5,6 +5,7 @@ import com.project.book_catalog.dto.request.AuthorRequestDTO;
 import com.project.book_catalog.dto.response.AuthorResponseDTO;
 import com.project.book_catalog.dto.response.ResponsePageDTO;
 import com.project.book_catalog.exception.BadRequestException;
+import com.project.book_catalog.exception.ResourceNotFound;
 import com.project.book_catalog.repository.AuthorRepository;
 import com.project.book_catalog.service.AuthorService;
 import com.project.book_catalog.util.PaginationUtil;
@@ -30,7 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorResponseDTO findBySecureId(String id) {
-        Author author = authorRepository.findBySecureId(id).orElseThrow(() -> new BadRequestException("Invalid id!!!"));
+        Author author = authorRepository.findBySecureId(id).orElseThrow(() -> new ResourceNotFound("Invalid id!!!"));
         AuthorResponseDTO authorResponse = modelMapper.map(author, AuthorResponseDTO.class);
         return authorResponse;
     }

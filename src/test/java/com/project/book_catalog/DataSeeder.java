@@ -61,8 +61,4 @@ public class DataSeeder {
         publisherRepository.saveAll(publishers);
     }
 
-    @Test
-    void test() {
-
-    }
 }
