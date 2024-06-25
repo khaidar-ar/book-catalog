@@ -9,6 +9,7 @@ import com.project.book_catalog.dto.response.BookDetailResponseDTO;
 import com.project.book_catalog.dto.response.BookResponseDTO;
 import com.project.book_catalog.dto.response.ResponsePageDTO;
 import com.project.book_catalog.exception.BadRequestException;
+import com.project.book_catalog.exception.ResourceNotFound;
 import com.project.book_catalog.repository.BookRepository;
 import com.project.book_catalog.service.AuthorService;
 import com.project.book_catalog.service.BookService;
@@ -77,7 +78,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDetailResponseDTO findBookDetail(String id) {
         Book book = bookRepository.findBySecureId(id)
-                .orElseThrow(() -> new BadRequestException("Book with id : " + id + ",not found!!!"));
+                .orElseThrow(() -> new ResourceNotFound("Book with id : " + id + ",not found!!!"));
         BookDetailResponseDTO bookResponseDTO = BookDetailResponseDTO.builder()
                 .title(book.getTitle())
                 .description(book.getDescription())

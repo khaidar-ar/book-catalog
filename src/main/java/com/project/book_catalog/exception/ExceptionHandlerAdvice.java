@@ -17,7 +17,7 @@ import com.project.book_catalog.dto.response.ErrorResponseDTO;
 import com.project.book_catalog.enums.ErrorCode;
 
 @ControllerAdvice
-public class ExceptionHandlerAdive extends ResponseEntityExceptionHandler {
+public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
             HttpHeaders headers,
@@ -34,7 +34,7 @@ public class ExceptionHandlerAdive extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFound.class)
-    public ResponseEntity<ErrorResponseDTO> handleResourceNotFount(ResourceNotFound ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFount(ResourceNotFound ex) {
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
         ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.of("resource not found", details,
